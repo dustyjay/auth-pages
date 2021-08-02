@@ -1,0 +1,32 @@
+@import './base.css';
+@import './form.css';
+
+
+/* Transitions */
+.t-login-enter-active {
+  transition: all 200ms ease-out;
+}
+
+.t-login-leave-active {
+  transition: all 100ms ease-out;
+}
+
+.t-login-enter,
+.t-login-leave-to {
+  opacity: 0;
+  transform: translateX(100%);
+}
+
+.t-register-enter-active {
+  transition: all 200ms ease-out;
+}
+
+.t-register-leave-active {
+  transition: all 100ms ease-out;
+}
+
+.t-register-enter,
+.t-register-leave-to {
+  opacity: 0;
+  transform: translateX(-100%);
+}
