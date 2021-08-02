@@ -22,7 +22,7 @@ export default {
   props: {
     value: { type: [String, Number], default: null },
     placeholder: { type: String, default: "", required: true },
-    label: { type: String, default: null },
+    label: { type: String, default: null, required: true },
     type: { type: String, default: "text" },
     name: { type: String, default: "", required: true },
     required: { type: Boolean, default: false },

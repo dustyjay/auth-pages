@@ -27,7 +27,11 @@
       </form>
     </div>
     <div class="form__meta">
-      <button @click="switchToRegister" class="btn btn-link login">
+      <button
+        @click="switchToRegister"
+        type="button"
+        class="btn btn-link login"
+      >
         Create account
       </button>
     </div>

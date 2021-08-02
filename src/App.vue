@@ -173,7 +173,7 @@ export default {
     flex: 1;
     box-shadow: 0px 0px 40px 36px rgba(33, 33, 33, 0.06);
     padding: 2rem 3rem;
-    border-radius: 8px;
+    border-radius: 2px;
   }
 
   &__login {
