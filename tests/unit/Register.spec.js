@@ -26,6 +26,12 @@ describe('Register View', () => {
     expect(inputFields.length).toEqual(3);
   });
 
+  it('has a submit button called "Create"', () => {
+    const buttons = wrapper.findAll('button[type="submit"]');
+    expect(buttons.length).toEqual(1);
+    expect(buttons.at(0).text()).toMatch('Create');
+  });
+
   it('has a meta button that shows the login page', () => {
     const button = wrapper.find('button.btn-link');
     expect(button.exists()).toBe(true);

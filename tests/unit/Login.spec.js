@@ -26,6 +26,12 @@ describe('Login View', () => {
     expect(forms.length).toEqual(1);
   });
 
+  it('has a submit button called "Login"', () => {
+    const buttons = wrapper.findAll('button[type="submit"]');
+    expect(buttons.length).toEqual(1);
+    expect(buttons.at(0).text()).toMatch('Login');
+  });
+
   it('has a meta button that shows the register page', () => {
     const button = wrapper.find('button.btn-link');
     expect(button.exists()).toBe(true);
