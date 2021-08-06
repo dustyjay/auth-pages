@@ -34,7 +34,7 @@
         </div>
       </form>
     </div>
-    <div class="login__meta">
+    <div class="form__meta">
       <button @click="switchToLogin" class="btn btn-link register">
         Already have an account?
       </button>
