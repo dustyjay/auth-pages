@@ -1,4 +1,4 @@
-# pigeon-login
+# Custom auth pages
 
 ## Project setup
 ```
