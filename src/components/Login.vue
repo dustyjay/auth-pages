@@ -24,6 +24,11 @@
         <div class="input__box">
           <button class="btn btn-pink" type="submit">Login</button>
         </div>
+        <div class="input__checkbox">
+          <label>
+            <input type="checkbox" v-model="rememberMe" /> Remember me</label
+          >
+        </div>
       </form>
     </div>
     <div class="form__meta">
@@ -53,17 +58,17 @@ export default {
     return {
       email: "",
       password: "",
+      rememberMe: false,
     };
-  },
-
-  watch: {
-    email(val) {
-      console.log(val);
-    },
   },
 
   methods: {
     handleSubmit() {
+      if (this.rememberMe) {
+        localStorage.setItem("login-email", this.email);
+      } else {
+        localStorage.removeItem("login-email");
+      }
       alert("login!");
     },
 
@@ -74,6 +79,10 @@ export default {
     switchToRegister() {
       switchCurrentPage(PAGE_STATE.REGISTER);
     },
+  },
+  mounted() {
+    this.email = localStorage.getItem("login-email");
+    if (this.email) this.rememberMe = true;
   },
 };
 </script>

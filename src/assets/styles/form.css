@@ -15,6 +15,10 @@
   margin-top: .75rem;
 }
 
+.input__checkbox {
+  margin-top: 1rem;
+}
+
 .btn {
   color: white;
   border-radius: 20px;
@@ -67,4 +71,14 @@
 
 .form__meta {
   text-align: right;
+}
+
+@media screen and (max-width: 767px) {
+  .form-page {
+    padding: 2rem 3rem
+  }
+
+  .form__title {
+    text-align: left;
+  }
 }

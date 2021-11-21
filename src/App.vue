@@ -2,35 +2,59 @@
   <div id="app">
     <main class="main__container">
       <section class="main__content">
-        <div :class="['auth__desc', showLogin ? 'login' : 'register']">
-          <div
-            :class="['auth__desc--content', 'login', showLogin ? 'show' : '']"
-          >
-            <h1 v-html="login.title" key="1" />
-            <h3 v-html="login.text" key="2" />
+        <div class="desktop__wrapper">
+          <div :class="['auth__desc', showLogin ? 'login' : 'register']">
+            <div
+              :class="['auth__desc--content', 'login', showLogin ? 'show' : '']"
+            >
+              <h1 v-html="greeting" key="1" />
+              <h3 v-html="selectedRandomText" key="2" />
+            </div>
+            <div
+              :class="[
+                'auth__desc--content',
+                'register',
+                !showLogin ? 'show' : '',
+              ]"
+            >
+              <h1 v-html="register.title" key="1" />
+              <h3 v-html="register.text" key="2" />
+            </div>
           </div>
-          <div
-            :class="[
-              'auth__desc--content',
-              'register',
-              !showLogin ? 'show' : '',
-            ]"
-          >
-            <h1 v-html="register.title" key="1" />
-            <h3 v-html="register.text" key="2" />
+          <div class="auth__content">
+            <div :class="['auth__login', showLogin ? 'login' : 'register']">
+              <transition name="t-login">
+                <Login v-if="showLogin" />
+              </transition>
+            </div>
+            <div :class="['auth__register', showLogin ? 'login' : 'register']">
+              <transition name="t-register">
+                <Register v-if="showRegister" />
+              </transition>
+            </div>
           </div>
         </div>
-        <div class="auth__content">
-          <div :class="['auth__login', showLogin ? 'login' : 'register']">
-            <transition name="t-login">
-              <Login v-if="showLogin" />
-            </transition>
-          </div>
-          <div :class="['auth__register', showLogin ? 'login' : 'register']">
-            <transition name="t-register">
-              <Register v-if="showRegister" />
-            </transition>
-          </div>
+        <div class="mobile__wrapper">
+          <section :class="['mobile__login', showLogin ? 'login' : 'register']">
+            <div class="auth__desc--content login">
+              <h1 v-html="greeting" />
+              <h3 v-html="selectedRandomText" />
+            </div>
+            <div class="auth__login login">
+              <Login />
+            </div>
+          </section>
+          <section
+            :class="['mobile__register', showLogin ? 'login' : 'register']"
+          >
+            <div class="auth__desc--content register">
+              <h1 v-html="register.title" />
+              <h3 v-html="register.text" />
+            </div>
+            <div class="auth__register register">
+              <Register />
+            </div>
+          </section>
         </div>
       </section>
     </main>
@@ -42,6 +66,14 @@ import Login from "./components/Login.vue";
 import Register from "./components/Register.vue";
 import { PAGE_STATE } from "./constants";
 import store from "./store";
+
+const RANDOM_TEXTS = [
+  "Greet to see you again",
+  "Good to have you with us",
+  "You are awesome",
+  "Welcome back",
+  "Enter your credentials",
+];
 
 export default {
   components: { Login, Register },
@@ -56,6 +88,7 @@ export default {
         title: "Let's get you started",
         text: "Be part of our awesome team<br/>and have fun with us",
       },
+      selectedRandomText: RANDOM_TEXTS[0],
     };
   },
   computed: {
@@ -71,11 +104,31 @@ export default {
     currentDesc() {
       return this.descriptions[this.currentPage];
     },
+    greeting() {
+      const today = new Date();
+      const currentHour = today.getHours();
+      return this.getCurrentGreeting(currentHour);
+    },
   },
   methods: {
     getDescription(type) {
       return this.descriptions[type];
     },
+    getCurrentGreeting(hour) {
+      if (hour < 12) {
+        return "Good Morning";
+      }
+      if (hour < 16) return "Good Afternoon";
+      return "Good Evening";
+    },
+    getRandomText() {
+      const { length } = RANDOM_TEXTS;
+      const number = Math.floor(Math.random() * length);
+      this.selectedRandomText = RANDOM_TEXTS[number];
+    },
+  },
+  mounted() {
+    this.getRandomText();
   },
 };
 </script>
@@ -104,8 +157,9 @@ export default {
     flex-direction: column;
 
     @media screen and (max-width: 767px) {
+      padding: 0;
       box-shadow: 0px 0px 40px 36px rgba(33, 33, 33, 0.06);
-      padding-top: 0;
+      overflow: hidden;
     }
   }
 }
@@ -173,7 +227,15 @@ export default {
         }
 
         @media screen and (max-width: 767px) {
-          transform: translateX(100%);
+          background-color: var(--pink-2);
+          transform: none;
+          h1 {
+            font-size: 2rem;
+          }
+          h3 {
+            font-size: 1rem;
+            font-weight: normal;
+          }
         }
       }
       &.register {
@@ -187,8 +249,23 @@ export default {
         }
 
         @media screen and (max-width: 767px) {
-          transform: translateX(-200%);
+          background-color: var(--grey-1);
+          transform: none;
+          h1 {
+            font-size: 2rem;
+          }
+          h3 {
+            font-size: 1rem;
+            font-weight: normal;
+          }
         }
+      }
+
+      @media screen and (max-width: 767px) {
+        height: 175px;
+        padding: 1rem 2.5rem;
+        text-align: left;
+        align-items: flex-start;
       }
     }
   }
@@ -232,6 +309,58 @@ export default {
         display: none;
       }
     }
+  }
+}
+
+.mobile {
+  &__wrapper {
+    max-width: 920px;
+    position: relative;
+    min-height: 550px;
+    height: 100%;
+    display: flex;
+
+    @media screen and (min-width: 768px) {
+      display: none;
+    }
+  }
+
+  &__login {
+    flex: 0 0 100%;
+    transition: 300ms ease-in-out;
+
+    &.login {
+      transform: translateX(0%);
+    }
+    &.register {
+      transform: translateX(-100%);
+    }
+  }
+
+  &__register {
+    flex: 0 0 100%;
+    transition: 300ms ease-in-out;
+
+    &.login {
+      transform: translateX(0%);
+    }
+    &.register {
+      transform: translateX(-100%);
+    }
+  }
+}
+
+.desktop__wrapper {
+  display: none;
+  max-width: 920px;
+  position: relative;
+  min-height: 550px;
+  height: 100%;
+  flex-direction: column;
+
+  @media screen and (min-width: 768px) {
+    display: flex;
+    padding: 2rem 0;
   }
 }
 </style>
